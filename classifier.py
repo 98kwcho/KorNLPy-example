@@ -26,21 +26,26 @@ def Decryption(text):
     result = translator.translate(text, src='en', dest = 'ko')
     return result.text
 
-string = input("문장 입력")
+string = input("문장 입력 : ")
 
 kor = Kor_classifier(string)
 enc = Encryption(string)
 eng = Eng_classifier(enc)
-dec = Decryption(string)
+dec = Decryption(enc)
 
 print(kor)
 
 temp = [ ]
 for key, value in kor:
         temp.append(key)
+        
+tmp = [ ]
+for key, value in eng:
+    tmp.append(key)
 
 print(temp)
 print(enc)
 print(eng)
+print(tmp)
 print(dec)
 
