@@ -3,10 +3,10 @@ from nltk.tag import pos_tag
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.tokenize import word_tokenize
-#from konlpy.utils import pprint 프린트 출력 관련
+'''from konlpy.utils import pprint 프린트 출력 관련'''
 from googletrans import Translator
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.lancaster import LancasterStemmer
+'''from nltk.stem.porter import PorterStemmer'''
+from nltk.stem.wordnet import WordNetLemmatizer
 
 def Kor_classifier(text):
     kkma = Kkma()
@@ -28,9 +28,14 @@ def Decryption(text):
     result = translator.translate(text, src='en', dest = 'ko')
     return result.text
 
-def Stemmer(text):
+'''def Stemmer(text):
     stemmer = PorterStemmer()
     result = stemmer.stem(text)
+    return result'''
+
+def Lemmatizer(text, pos1):
+    lemmatizer = WordNetLemmatizer()
+    result = lemmatizer.lemmatize(text,pos = pos1)
     return result
 
 string = input("문장 입력 : ")
@@ -48,9 +53,11 @@ for key, value in kor:
         
 tmp = [ ]
 for key, value in eng:
-    if value[0] == 'N' or value[0] == 'V':
+    if value[0] == 'N' or value[0] == 'V' or value[0] == 'J':
         if value[0] == 'V' :        
-            tmp.append(Stemmer(key))
+            tmp.append(Lemmatizer(key, 'v'))
+        elif value[0] == 'J':
+            tmp.append(Lemmatizer(key, 'a'))
         else:
             tmp.append(key)
         
