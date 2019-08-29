@@ -38,32 +38,36 @@ def Lemmatizer(text, pos1):
     result = lemmatizer.lemmatize(text,pos = pos1)
     return result
 
-string = input("문장 입력 : ")
+strings = input("문장 입력 : ")
 
-kor = Kor_classifier(string)
-enc = Encryption(string)
-eng = Eng_classifier(enc)
-dec = Decryption(enc)
+kkma = Kkma()
+sentence = kkma.sentences(strings)
+for string in sentence:
+    kor = Kor_classifier(string)
+    enc = Encryption(string)
+    eng = Eng_classifier(enc)
+    dec = Decryption(enc)
 
-print(kor)
+    print(kor)
 
-temp = [ ]
-for key, value in kor:
-        temp.append(key)
+    temp = [ ]
+    for key, value in kor:
+        if value[0] == 'N' or value[0] == 'V':
+            temp.append(key)
         
-tmp = [ ]
-for key, value in eng:
-    if value[0] == 'N' or value[0] == 'V' or value[0] == 'J':
-        if value[0] == 'V' :        
-            tmp.append(Lemmatizer(key, 'v'))
-        elif value[0] == 'J':
-            tmp.append(Lemmatizer(key, 'a'))
-        else:
-            tmp.append(key)
+    tmp = [ ]
+    for key, value in eng:
+        if value[0] == 'N' or value[0] == 'V' or value[0] == 'J':
+            if value[0] == 'V' :        
+               tmp.append(Lemmatizer(key, 'v'))
+            elif value[0] == 'J':
+               tmp.append(Lemmatizer(key, 'a'))
+            else:
+                tmp.append(key)
         
-print(temp)
-print(enc)
-print(eng)
-print(tmp)
-print(dec)
+    print(temp)
+    print(enc)
+    print(eng)
+    print(tmp)
+    print(dec)
 
