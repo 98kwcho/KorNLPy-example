@@ -52,7 +52,7 @@ for string in sentence:
     temp = [ ]
     for key, value in kor:
         if value[0] == 'N' or value[0] == 'V':
-            if value == 'VV':
+            if value[0] == 'V':
                 key += '다'
                 temp.append(key)
             else:
