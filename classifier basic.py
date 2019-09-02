@@ -64,7 +64,7 @@ for string in sentence:
 
         temp3 = []
         for num in range (len(temp2)):
-                if temp2[num][0][1] == 'NN' or temp2[num][0][1] == 'VB' or temp2[num][0][1] == 'JJ' or temp2[num][0][1] == 'IN' or temp2[num][0][1] == 'RB' :
+                if temp2[num][0][1][0] == 'N' or temp2[num][0][1] == 'VB' or temp2[num][0][1] == 'JJ' or temp2[num][0][1] == 'IN' or temp2[num][0][1] == 'RB' :
                     if temp2[num][0][1] == 'IN':
                         if not temp3:
                             temp3.append(temp2[num][0][0])
