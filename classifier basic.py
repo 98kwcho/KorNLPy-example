@@ -54,44 +54,45 @@ for string in sentence:
             else:
                 temp[key]  = value
 
-        temp1 = []
-        for key in list(temp.keys()):        
-            temp1.append(Encryption(key))
+    temp1 = []
+    for key in list(temp.keys()):        
+        temp1.append(Encryption(key))
 
-        temp2 = []
-        for key in temp1:
-            temp2.append(Eng_classifier(key))
+    temp2 = []
+    for key in temp1:
+        temp2.append(Eng_classifier(key))
 
-        temp3 = []
-        for num in range (len(temp2)):
-                if temp2[num][0][1][0] == 'N' or temp2[num][0][1] == 'VB' or temp2[num][0][1] == 'JJ' or temp2[num][0][1] == 'IN' or temp2[num][0][1] == 'RB' :
-                    if temp2[num][0][1] == 'IN':
-                        if not temp3:
-                            temp3.append(temp2[num][0][0])
-                        else:
-                            word = temp3.pop()
-                            isverb = Eng_classifier(word)
-                            if isverb[0][1] == 'VB':
-                                temp3.append(word + ' ' + temp2[num][0][0])
-                            else :
-                                temp3.append(word)
-                    elif temp2[num][0][1] == 'RB':
-                        if not temp3:
-                            temp3.append(temp2[num][0][0])
-                        else:
-                            word = temp3.pop()
-                            isverb = Eng_classifier(word)
-                            if isverb[0][1] == 'JJ':
-                                temp3.append(temp2[num][0][0] + ' ' + word )
-                            else :
-                                temp3.append(word)
+    temp3 = []
+    for num in range (len(temp2)):
+        for num1 in range(len(temp2[num])):
+            if temp2[num][num1][1][0] == 'N' or temp2[num][num1][1][0] == 'V' or temp2[num][num1][1] == 'JJ' or temp2[num][num1][1] == 'IN' or temp2[num][num1][1] == 'RB' or temp2[num][num1][1] == 'RP' :
+                if temp2[num][num1][1] == 'IN' or temp2[num][num1][1] == 'RP':
+                    if not temp3:
+                        temp3.append(temp2[num][num1][0])
                     else:
-                        temp3.append(temp2[num][0][0])
-        temp4 = {}
-        temp5 = {}
-        for key in temp3:
-            temp4[key] = count
-            temp5[Decryption(key)] = count
+                        word = temp3.pop()
+                        isverb = Eng_classifier(word)
+                        if isverb[0][1][0] == 'V':
+                            temp3.append(word + ' ' + temp2[num][num1][0])
+                        else :
+                            temp3.append(word)
+                elif temp2[num][num1][1] == 'RB':
+                    if not temp3:
+                        temp3.append(temp2[num][num1][0])
+                    else:
+                        word = temp3.pop()
+                        isverb = Eng_classifier(word)
+                        if isverb[0][1] == 'JJ':
+                            temp3.append(temp2[num][num1][0] + ' ' + word )
+                        else :
+                            temp3.append(word)
+                else:
+                    temp3.append(temp2[num][num1][0])
+    temp4 = {}
+    temp5 = {}
+    for key in temp3:
+        temp4[key] = count
+        temp5[Decryption(key)] = count
         
 print(temp)
 print(temp1)
