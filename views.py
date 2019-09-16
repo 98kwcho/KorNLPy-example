@@ -48,10 +48,11 @@ def index(request):
 
 @csrf_exempt
 def form_test(request):
+    kkma = Kkma()
+    translator = Translator()
     if request.method == 'POST':
         form = TxtForm(request.POST)
         if form.is_valid():
-            kkma = Kkma()
             count = 0
             strings = request.POST['text']
             sen_spilt = strings.splitlines()
@@ -62,7 +63,7 @@ def form_test(request):
                 result = []
                 sentence = kkma.sentences(senten)
                 for string in sentence:
-                    kor = Kor_classifier(string)
+                    kor = kkma.pos(string)
                     count += 1
                     temp = {}
                     for key, value in kor:
@@ -74,8 +75,9 @@ def form_test(request):
                              temp[key]  = value
 
                     temp1 = []
-                    for key in list(temp.keys()):        
-                        temp1.append(Encryption(key))
+                    for key in list(temp.keys()):  
+                        temp1_result = translator.translate(key, src='ko', dest = 'en')     
+                        temp1.append(temp1_result.text)
 
                     temp2 = []
                     for key in temp1:
@@ -110,8 +112,9 @@ def form_test(request):
                     temp4 = {}#최종적으로 사용될 딕셔너리 temp4(영어) temp5(한글)
                     temp5 = {}
                     for key in temp3:
+                        temp5_result = translator.translate(key, src='en', dest = 'ko')
                         temp4[key] = count
-                        temp5[Decryption(key)] = count
+                        temp5[temp5_result.text] = count
 
                     result.append(json.dumps(temp5, ensure_ascii=False))
                 sen.append(result)
